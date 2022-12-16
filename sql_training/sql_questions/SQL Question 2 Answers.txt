@@ -1,0 +1,56 @@
+-- 1.SQL Query to print the number of employees per department in the organization
+	
+	SELECT deptno, COUNT(*) AS employee_count
+	FROM quantrix_schema.emp
+	GROUP BY deptno
+
+-- 2.SQL Query to find the employee details who got second maximum salary
+
+	SELECT * FROM quantrix_schema.emp
+	WHERE sal = (
+		SELECT sal FROM quantrix_schema.emp
+		ORDER BY sal DESC
+		LIMIT 1 OFFSET 1
+	)
+
+-- 3.SQL Query to find the employee details who got second maximum salary in each 
+department
+
+	SELECT d.dname, e.* FROM(
+		SELECT *, DENSE_RANK() OVER(PARTITION BY deptno ORDER BY sal DESC) as sal_rank
+		FROM quantrix_schema.emp
+	) e 
+	JOIN quantrix_schema.dept d ON e.deptno = d.dptno
+	WHERE e.sal_rank = 2
+	
+
+-- 4.SQL Query to find the employee who got minimum salary in 2019
+
+	SELECT * FROM quantrix_schema.emp
+	ORDER BY sal ASC
+	LIMIT 1
+
+-- 5.SQL query to select the employees getting salary greater than the average salary of the department that are working in
+
+	SELECT * FROM quantrix_schema.emp
+	WHERE sal > (
+		SELECT AVG(sal) FROM quantrix_schema.emp
+	)
+
+-- 6.SQL query to compute the group salary of all the employees.
+
+	SELECT SUM(sal) as total_salary FROM quantrix_schema.emp
+
+-- 7.SQL query to list the employees and name of employees reporting to each person.
+
+	SELECT e1.ename as Manager, e2.ename as Employee
+	FROM quantrix_schema.emp e1 JOIN quantrix_schema.emp e2 ON e1.empno = e2.mgr
+
+
+-- 8.SQL query to find the department with highest number of employees.
+
+	SELECT d.dname as department_name, e.deptno as department_no, COUNT(e.empno) as total_employees 
+	FROM quantrix_schema.emp e JOIN quantrix_schema.dept d ON e.deptno = d.dptno
+	GROUP BY e.deptno, d.dname
+	ORDER BY total_employees DESC
+	LIMIT 1

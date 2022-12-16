@@ -1,0 +1,41 @@
+-- 1. Display all the information of the Employee table.
+	
+	SELECT * FROM quantrix_schema.emp;
+
+-- 2. Display unique Department names from Employee table. (Department Table?)
+
+	SELECT DISTINCT dname FROM quantrix_schema.dept;
+
+-- 3. List the details of the employees in ascending order of their salaries.
+	
+	SELECT * FROM quantrix_schema.emp
+	ORDER BY sal ASC;
+
+-- 4. List the employees who joined before 1981.
+
+	SELECT ename, hiredate FROM quantrix_schema.emp
+	WHERE EXTRACT(YEAR FROM hiredate) < 1981;
+ 
+-- 5. List the employees who are joined in the year 1981
+
+	SELECT ename, hiredate FROM quantrix_schema.emp
+	WHERE EXTRACT(YEAR FROM hiredate) = 1981;
+
+-- 6. List the Empno, Ename, Sal, Daily Sal of all Employees in the ASC order of AnnSal. (Note devide sal/30 as annsal)
+
+	SELECT empno, ename, sal, TRUNC(sal/30::numeric,2) as dailysal FROM quantrix_schema.emp
+	ORDER BY sal ASC
+
+-- 7. List the employees who are working for the department name ACCOUNTING
+
+	SELECT ename, dname FROM quantrix_schema.emp
+	LEFT JOIN quantrix_schema.dept
+	on quantrix_schema.emp.deptno = quantrix_schema.dept.dptno
+	WHERE quantrix_schema.dept.dname = 'ACCOUNTING';
+
+-- 8. List the employees who does not belong to department name ACCOUNTING
+
+	SELECT ename, dname FROM quantrix_schema.emp
+	LEFT JOIN quantrix_schema.dept
+	on quantrix_schema.emp.deptno = quantrix_schema.dept.dptno
+	WHERE quantrix_schema.dept.dname != 'ACCOUNTING';
