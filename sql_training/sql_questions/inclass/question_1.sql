@@ -58,9 +58,9 @@ VALUES
 	SELECT stat_cd, MAX(tran_ammt), MIN(tran_ammt) FROM quantrix_schema.tran_fact
 	GROUP BY stat_cd
 	
--- 3. Calculate total transaction which have tran_ammt more than 10000 | Calculate all transactions?!
+-- 3. Calculate total transactions which have tran_ammt more than 10000
 
-	SELECT * FROM quantrix_schema.tran_fact
+	SELECT COUNT (tran_ammt) FROM quantrix_schema.tran_fact
 	WHERE tran_ammt > 10000
 
 -- 4. Show the state which have total (sum) tran_ammt more than 10000
