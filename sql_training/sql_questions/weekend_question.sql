@@ -46,23 +46,26 @@
 --    ammount desc within per tran_date(Here you are using he question2 but filtering only for rank 2) and join
 --    cust_dim_details on cust_id and tran_dt between start_date and end_date
 	
-	-- TODO
-	SELECT t.* FROM(
-		SELECT t1.tran_date, t1.tran_ammt, t2.total_tran_ammt, DENSE_RANK() OVER (PARTITION BY t1.tran_date ORDER BY t1.tran_ammt DESC) 
-		FROM quantrix_schema.tran_fact t1
-		CROSS JOIN (
-			SELECT SUM(tran_ammt) as total_tran_ammt FROM quantrix_schema.tran_fact
-		) t2
-		WHERE t1.tran_ranks = 2
-	) t
+	SELECT * FROM (
+		SELECT t.*, c.*, DENSE_RANK() OVER (PARTITION BY t.tran_date ORDER BY t.tran_ammt DESC) as trans_rank 
+		FROM quantrix_schema.tran_fact t
+		JOIN quantrix_schema.cust_dim_details c ON t.cust_id = c.cust_id
+		AND t.tran_date BETWEEN c.start_date AND c.end_date
+	) ct
+	WHERE trans_rank = 2
 	
 -- 3. From question 2 : when stat_cd is not euqal to state_cd then data issues else good data as stae_cd_status
 --    [Note NUll from left side is not equal NUll from other side  >> means lets sayd NULL value from fact table if compared
 --    to NULL Value to right table then it should be data issues]
 
-	SELECT t.*, c.state_cd, CASE 
-								WHEN t.stat_cd is NULL THEN 'data issues'
-								WHEN t.stat_cd != c.state_cd THEN 'data issues'
-								ELSE 'good data' END as stae_cd_status
-	FROM quantrix_schema.tran_fact t 
-	JOIN quantrix_schema.cust_dim_details c ON t.cust_id = c.cust_id
+	SELECT *, CASE 
+			WHEN ct.stat_cd is NULL THEN 'data issues'
+			WHEN ct.stat_cd != ct.state_cd THEN 'data issues'
+			ELSE 'good data' END as stae_cd_status
+	FROM (
+		SELECT t.*, c.*, RANK() OVER (PARTITION BY t.tran_date ORDER BY t.tran_ammt DESC) as trans_rank 
+		FROM quantrix_schema.tran_fact t
+		JOIN quantrix_schema.cust_dim_details c ON t.cust_id = c.cust_id
+		AND t.tran_date BETWEEN c.start_date AND c.end_date
+	) ct
+	WHERE trans_rank = 2
