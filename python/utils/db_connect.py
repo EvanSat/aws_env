@@ -1,5 +1,5 @@
 import psycopg2
-import pandas as pd
+# import pandas as pd
 from config import db_config as db_cfg
 
 
@@ -24,5 +24,5 @@ def sql_query(query: str):
     return 0
 
 
-sql_query('SELECT * FROM quantrix_schema.tran_fact')
+# sql_query('SELECT * FROM quantrix_schema.tran_fact')
 
