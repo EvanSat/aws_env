@@ -2,7 +2,7 @@
 
 redshift_hostname = 'AWSHostName'
 redshift_username = 'AWSUsername'
-redshift_password = 'AWSpassword!'
+redshift_password = 'AWSpassword'
 redshift_database = 'AWSDatabaseName'
 redshift_port = 5439
 
