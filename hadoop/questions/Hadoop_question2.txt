@@ -1,4 +1,4 @@
-1. What is hdoop architecture. Diagram
+1. What is hadoop architecture? (Reference Diagram)
 	Application Layer | MapReduce or other Applications
 	Resource Management Layer | YARN
 	Storage Layer | HDFS
