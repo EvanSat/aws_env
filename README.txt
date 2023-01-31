@@ -1,3 +1,3 @@
 # aws_env
 
-Quantrix Training Environment for AWS Data Engineer
+Quintrix Training Environment for AWS Data Engineer
