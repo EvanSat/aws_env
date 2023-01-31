@@ -1,0 +1,16 @@
+1. What is hdoop architecture. Diagram
+	Application Layer | MapReduce or other Applications
+	Resource Management Layer | YARN
+	Storage Layer | HDFS
+
+2. What is hdfs file system? Whats the benefit?
+	Uses a master and slave architecture which is horizontally scalable
+	Utilizes a replication management system to ensure data integrity by copying the same block in different locations (default amount is 3)
+
+3. What is a block in hdfs? Default size?
+	Stores and processes data 
+	Default size: 256MB
+
+4. What are various file format?
+	Row Format: CSV, JSON, Txt
+	Column Format: Parquet, ORC
